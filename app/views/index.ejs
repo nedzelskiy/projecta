@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Forum for house</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,cyrillic">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+
+    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+
+    <script>
+        System.config({
+        packages: {        
+          app: {
+            format: 'register',
+            defaultExtension: 'js'
+          }
+        }
+      });
+      System.import('app/main')
+            .then(null, console.error.bind(console));
+    </script>
+</head>
+
+<body>
+    
+</body>
+
+</html>
