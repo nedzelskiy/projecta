@@ -1,0 +1,27 @@
+{
+  "name": "project-a",
+  "description": "forum for house",
+  "main": "app.js",
+  "authors": [
+    "Pavel Nedzelskiy and..."
+  ],
+  "license": "MIT",
+  "keywords": [
+    "open",
+    "source",
+    "web",
+    "project",
+    "team",
+    "building",
+    "cooperation",
+    "learning"
+  ],
+  "homepage": "https://github.com/nedzelskiy/projecta",
+  "ignore": [
+    "node_modules",
+    "app/public/bower_components"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}

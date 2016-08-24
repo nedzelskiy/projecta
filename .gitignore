@@ -1,6 +1,5 @@
 node_modules
-app/**/*.js
-app/**/*.map
+app/public/*
 npm-debug.log
 ..git
 nbproject
