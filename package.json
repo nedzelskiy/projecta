@@ -53,12 +53,14 @@
     "gulp-sass": "^2.3.2",
     "gulp-search": "^1.0.0",
     "gulp-shell": "^0.5.2",
+    "gulp-typescript": "^2.13.6",
     "gulp-uglify": "^2.0.0",
     "gulp-watch": "^4.3.9",
     "imagemin-pngquant": "^5.0.0",
     "jscs": "^3.0.7",
     "lite-server": "^2.2.0",
     "minimatch": "^3.0.2",
+    "nodemon": "^1.10.2",
     "rimraf": "^2.5.4",
     "typescript": "^1.8.10"
   }

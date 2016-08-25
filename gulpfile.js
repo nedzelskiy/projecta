@@ -19,6 +19,7 @@ var htmlclean = require('gulp-htmlclean');
 var replace = require('gulp-replace');
 var search = require('gulp-search');
 var shell = require('gulp-shell');
+var ts = require('gulp-typescript');
 
 
 
@@ -88,12 +89,16 @@ gulp.task('clean', function () {
 
 
 gulp.task('js:build', function () {
-//    var result = gulp.src(config.src.js)
-//            .pipe(changed(config.build.js))
-//            .pipe(concat('js.js'))
-//            .pipe(uglify()) // compress js
-//            .pipe(gulp.dest(config.build.js));
-//    return onLiveReload(result);
+    var result = gulp.src(config.src.ts)
+            .pipe(changed(config.build.js))
+            .pipe(ts({
+                noImplictitAny: true,
+                out: 'js.js'
+            }))
+            .pipe(concat('js.js'))
+            .pipe(uglify()) // compress js
+            .pipe(gulp.dest(config.build.js));
+    return onLiveReload(result);
 
 });
 
@@ -131,7 +136,7 @@ gulp.task('fonts:build', function () {
 
 gulp.task('start', shell.task([
     "echo Building project was finished!",
-    'node app.js'
+    'nodemon app.js -e js,ejs,ts'
 ]));
 
 gulp.task('build', [
@@ -153,6 +158,9 @@ gulp.task('watch', function () {
     });
     watch([config.watch.fonts], function (event, cb) {
         gulp.start('fonts:build');
+    });
+    watch([config.watch.views], function (event, cb) {
+        gulp.start('build');
     });
 });
 
