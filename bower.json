@@ -22,6 +22,6 @@
     "app/public/bower_components"
   ],
   "dependencies": {
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^4.0"
   }
 }
