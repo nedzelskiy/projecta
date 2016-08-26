@@ -24,18 +24,18 @@ var ts = require('gulp-typescript');
 
 
 var config = {
-    build: { // to
+    build: {// to
         js: 'app/public/js/',
         styles: 'app/public/css/',
         img: 'app/public/img/',
         fonts: 'app/public/fonts/'
     },
-    src: { // from
-        ts: 'app/assets/ts/**/*.ts', 
+    src: {// from
+        ts: 'app/assets/ts/**/*.ts',
         styles: [
             'app/assets/scss/**/*.scss'
         ],
-        img: 'app/assets/img/**/*.*', 
+        img: 'app/assets/img/**/*.*',
         fonts: 'app/assets/fonts/**/*.*'
     },
     watch: {
@@ -43,7 +43,8 @@ var config = {
         styles: 'app/assets/scss/**/*.scss',
         img: 'app/assets/img/**/*.*',
         views: 'app/assets/views/**/*.ejs',
-        fonts: 'app/assets/fonts/**/*.*'
+        fonts: 'app/assets/fonts/**/*.*',
+        gulpfile: 'gulpfile.js'
     },
     clean: [
         'app/public/js/*',
@@ -87,13 +88,18 @@ gulp.task('clean', function () {
     });
 });
 
-
 gulp.task('js:build', function () {
     var result = gulp.src(config.src.ts)
             .pipe(changed(config.build.js))
             .pipe(ts({
-                noImplictitAny: true,
-                out: 'js.js'
+                out: 'js.js',
+                experimentalDecorators: true,
+                target: "es5",
+                module: "system",
+                moduleResolution: "node",
+                sourceMap: true,
+                emitDecoratorMetadata: true,
+                removeComments: false
             }))
             .pipe(concat('js.js'))
             .pipe(uglify()) // compress js
@@ -126,7 +132,6 @@ gulp.task('img:build', function () {
     return onLiveReload(result);
 });
 
-
 gulp.task('fonts:build', function () {
     var result = gulp.src(config.src.fonts)
             .pipe(changed(config.build.fonts))
@@ -134,8 +139,8 @@ gulp.task('fonts:build', function () {
     return onLiveReload(result);
 });
 
-gulp.task('start', shell.task([
-    "echo Building project was finished!",
+gulp.task('start-server', shell.task([
+    "echo Building project was finished! '[" + new Date() + "]'",
     'nodemon app.js -e js,ejs,ts'
 ]));
 
@@ -162,6 +167,12 @@ gulp.task('watch', function () {
     watch([config.watch.views], function (event, cb) {
         gulp.start('build');
     });
+    watch([config.watch.gulpfile], function (event, cb) {
+        gulp.start('build');
+    });
 });
 
-gulp.task('default', ['build', 'watch', 'start']);
+gulp.task('default', ['build'], function () {
+    gulp.start('watch');
+    gulp.start('start-server');
+});

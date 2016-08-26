@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({// to support URL-encoded bodies
 }));
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../../node_modules')));
+app.use(express.static(path.join(__dirname, '../../bower_components')));
 app.use(require('./routes'));
 
 module.exports = app;
