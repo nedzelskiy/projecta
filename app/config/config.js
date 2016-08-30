@@ -1,16 +1,29 @@
-module.exports = {
-    dev: {
-        server: {
-            domain: "localhost",
-            port: process.env.PORT || 9999,
-            defaultLanguage: "ru",
-            wayToViews: "./app/assets/views",
-            viewsFormat: "ejs"
-        },
-        db: {
-            connection: ""
-        }
+'use strict';
+var config = {
+  dev: {
+    mode: 'development',
+    server: {
+      domain: 'localhost',
+      port: 4124,
+      defaultLanguage: 'ru',
+      wayToViews: '../assets/views',
+      viewsFormat: 'ejs'
     },
-    prod: {
+    db: {
+      connection: ''
     }
+  },
+  prod: {
+    mode: 'production',
+    server: {
+      port: 80
+    },
+    db: {
+      connection: ''
+    }
+  }
+};
+
+module.exports = function(mode) {
+  return config[mode || process.argv[2] || 'dev'] || config.dev;
 };

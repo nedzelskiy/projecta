@@ -1,14 +1,13 @@
-var config = require('./config');
+'use strict';
+module.exports = function(app, config) {
+  var server = app.listen(config.server.port, config.server.domain, function() {
+    var host = server.address().address;
+    var port = server.address().port;
+    console.log('Env = ' + config.mode);
+    console.log('Example app listening at http://%s:%s [%s]', host, port, new Date());
+  });
+  app.set('views', config.server.wayToViews);
+  app.set('view engine', config.server.viewsFormat);
 
-module.exports = function (app, env) {
-    var server = app.listen(config[env].server.port, config[env].server.domain, function () {
-        var host = server.address().address;
-        var port = server.address().port;
-        console.log('Example app listening at http://%s:%s [%s]', host, port, new Date());
-    });
-
-    app.set('views', './' + config[env].server.wayToViews);
-    app.set('view engine', config[env].server.viewsFormat);
-
-    return server;
+  return server;
 };
