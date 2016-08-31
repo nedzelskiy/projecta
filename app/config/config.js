@@ -6,7 +6,7 @@ var config = {
       domain: 'localhost',
       port: 4124,
       defaultLanguage: 'ru',
-      wayToViews: '../assets/views',
+      wayToViews: './app/assets/views',
       viewsFormat: 'ejs'
     },
     db: {

@@ -20,7 +20,7 @@ var search = require('gulp-search');
 var shell = require('gulp-shell');
 var ts = require('gulp-typescript');
 var nodemon = require('gulp-nodemon');
-var configServer = require('./app/config/config.js');
+var configServer = require('./app/config/config.js')('dev');
 
 var config = {
   build: { // to
@@ -35,7 +35,12 @@ var config = {
       'app/assets/scss/**/*.scss'
     ],
     img: 'app/assets/img/**/*.*',
-    fonts: 'app/assets/fonts/**/*.*'
+    fonts: 'app/assets/fonts/**/*.*',
+    backend: [
+      'app/api/**/*.*',
+      'app/config/**/*.*'
+    ],
+    backendTests: 'tests/backend/**/*.*'
   },
   watch: {
     ts: 'app/assets/ts/**/*.ts',
@@ -43,12 +48,22 @@ var config = {
     img: 'app/assets/img/**/*.*',
     views: 'app/assets/views/**/*.ejs',
     fonts: 'app/assets/fonts/**/*.*',
-    gulpfile: 'gulpfile.js'
+    gulpfile: 'gulpfile.js',
+    nodemon: [
+      'app/public',
+      'app/api',
+      'app/config',
+      'app/assets/views',
+      'app/assets/img',
+      'app/assets/fonts',
+      'app.js'
+    ]
   },
   clean: [
     'app/public/js/*',
     'app/public/css/*',
     'app/public/img/*',
+    'app/public/templates/*',
     'app/public/fonts/*'
   ],
   prefixopt: {
@@ -72,15 +87,15 @@ gulp.task('js:build', function() {
     .pipe(changed(config.build.js))
     .pipe(ts({
       //out: 'js.js',
-      target: 'es6',
-      module: 'commonjs',
-      moduleResolution: 'node',
-      sourceMap: true,
-      emitDecoratorMetadata: true,
-      experimentalDecorators: true,
-      removeComments: false,
-      noImplicitAny: true,
-      suppressImplicitAnyIndexErrors: true
+      'target': 'es6',
+      'module': 'commonjs',
+      'moduleResolution': 'node',
+      'sourceMap': true,
+      'emitDecoratorMetadata': true,
+      'experimentalDecorators': true,
+      'removeComments': false,
+      'noImplicitAny': true,
+      'suppressImplicitAnyIndexErrors': true
     }))
     //.pipe(concat('js.js'))
     //.pipe(uglify()) // compress js
@@ -90,8 +105,6 @@ gulp.task('js:build', function() {
     .pipe(changed('app/public/js/'))
     .pipe(gulp.dest('app/public/js/'));
   console.log('Js task was done!');
-  return onLiveReload(result);
-
 });
 
 gulp.task('styles:build', function() {
@@ -103,7 +116,6 @@ gulp.task('styles:build', function() {
     .pipe(cssmin()) // compress css
     .pipe(gulp.dest(config.build.styles));
   console.log('Styles task was done!');
-  return onLiveReload(result);
 });
 
 gulp.task('img:build', function() {
@@ -119,7 +131,6 @@ gulp.task('img:build', function() {
     }))
     .pipe(gulp.dest(config.build.img));
   console.log('Img task was done!');
-  return onLiveReload(result);
 });
 
 gulp.task('fonts:build', function() {
@@ -127,7 +138,6 @@ gulp.task('fonts:build', function() {
     .pipe(changed(config.build.fonts))
     .pipe(gulp.dest(config.build.fonts));
   console.log('Fonts task was done!');
-  return onLiveReload(result);
 });
 
 gulp.task('build', [
@@ -166,29 +176,18 @@ gulp.task('watch', function() {
   });
 });
 
-gulp.task('default', ['nodemon'], function() {
-  console.log('Server running!');
-  gulp.start('build');
-  gulp.start('watch');
-});
-gulp.task('l', ['browser-sync'], function() {
-  console.log('Server was running with l - livereload!');
-  gulp.start('build');
-  gulp.start('watch');
-});
-
 gulp.task('browser-sync', ['nodemon'], function() {
   browserSync.init(null, {
-    proxy: 'http://localhost:' + configServer.dev.server.port,
+    proxy: 'http://localhost:' + configServer.server.port,
     port: 4000
   });
 });
 
-gulp.task('nodemon', ['start-backend-test'], function(cb) {
+gulp.task('nodemon', function(cb) {
   var started = false;
   return nodemon({
     script: 'app.js',
-    ext: 'js html ejs ts jpg png json'
+    watch: config.watch.nodemon
   }).on('start', function() {
     // to avoid nodemon being started multiple times
     if (!started) {
@@ -196,13 +195,46 @@ gulp.task('nodemon', ['start-backend-test'], function(cb) {
       started = true;
     }
   }).on('restart', function() {
-    gulp.start('start-backend-test');
     setTimeout(function() {
       browserSync.reload();
-    }, 2000);
+    }, 1000);
   });
 });
 
 gulp.task('start-backend-test', shell.task([
-  'jasmine-node ./tests/backend'
+  'jasmine-node ./tests/backend',
+  'echo "CALLED ON [' + new Date() + ']"'
 ]));
+
+gulp.task('watch-backend', function() {
+  var backendFiles = config.src.backend;
+  backendFiles.push(config.src.backendTests);
+  watch(backendFiles, function(event, cb) {
+    console.log('backend files has been changed!');
+    gulp.start('start-backend-test');
+  });
+});
+
+// THIS IS API GULP'S TASKS
+
+// start backend tests
+// should start in new console
+gulp.task('bt', function() {
+  console.log('Starting auto backend testing...');
+  gulp.start('watch-backend');
+  gulp.start('start-backend-test');
+});
+
+// start server with livereaload
+gulp.task('l', ['browser-sync'], function() {
+  console.log('Server was running with l - livereload!');
+  gulp.start('build');
+  gulp.start('watch');
+});
+
+// start server without livereload
+gulp.task('default', ['nodemon'], function() {
+  console.log('Server running!');
+  gulp.start('build');
+  gulp.start('watch');
+});
