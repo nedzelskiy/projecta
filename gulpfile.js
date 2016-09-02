@@ -59,7 +59,7 @@ var config = {
       'app.js'
     ]
   },
-  clean: [
+  clean: [ // delete files from
     'app/public/js/*',
     'app/public/css/*',
     'app/public/img/*',
