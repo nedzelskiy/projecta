@@ -42,7 +42,7 @@ var config = {
     ],
     backendTests: 'tests/backend/**/*.*'
   },
-  watch: {
+  watch: { // for what file need watch
     ts: 'app/assets/ts/**/*.ts',
     styles: 'app/assets/scss/**/*.scss',
     img: 'app/assets/img/**/*.*',
