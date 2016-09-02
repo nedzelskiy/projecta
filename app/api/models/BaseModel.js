@@ -5,7 +5,7 @@ var ExtendableService = require('../services/ExtendableService');
  * @param {obj} db db connect instance
  */
 var setDbConnectionInstance = function(db) {
-  this.db = db;
+  this.db = db || null;
 };
 
 module.exports = setDbConnectionInstance;
