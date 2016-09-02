@@ -100,11 +100,6 @@ gulp.task('js:build', function() {
     //.pipe(concat('js.js'))
     //.pipe(uglify()) // compress js
     .pipe(gulp.dest(config.build.js));
-
-  gulp.src('systemjs.config.js')
-    .pipe(changed('app/public/js/'))
-    .pipe(gulp.dest('app/public/js/'));
-  console.log('Js task was done!');
 });
 
 gulp.task('styles:build', function() {
