@@ -212,11 +212,17 @@ gulp.task('watch-backend', function() {
 
 // THIS IS API GULP'S TASKS
 
-// start backend tests
+// start backend tests with watch
+// should start in new console
+gulp.task('btw', function() {
+  console.log('Starting auto backend testing with watch...');
+  gulp.start('watch-backend');
+  gulp.start('start-backend-test');
+});
+// start backend tests without watch
 // should start in new console
 gulp.task('bt', function() {
   console.log('Starting auto backend testing...');
-  gulp.start('watch-backend');
   gulp.start('start-backend-test');
 });
 
