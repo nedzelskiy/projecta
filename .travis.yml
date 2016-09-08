@@ -7,3 +7,5 @@ install: true
 before_script:
   - npm install -g jasmine-node
   - npm install underscore
+  - npm install body-parser
+  - npm install jasmine-jquery
