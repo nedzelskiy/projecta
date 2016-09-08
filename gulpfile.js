@@ -42,7 +42,7 @@ var config = {
     ],
     backendTests: 'tests/backend/**/*.*'
   },
-  watch: {
+  watch: { // for what file need watch
     ts: 'app/assets/ts/**/*.ts',
     styles: 'app/assets/scss/**/*.scss',
     img: 'app/assets/img/**/*.*',
@@ -59,7 +59,7 @@ var config = {
       'app.js'
     ]
   },
-  clean: [
+  clean: [ // delete files from
     'app/public/js/*',
     'app/public/css/*',
     'app/public/img/*',
