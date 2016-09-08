@@ -6,4 +6,4 @@ script: jasmine-node ./tests/backend
 install: true
 before_script:
   - npm install -g jasmine-node
-  - npm install -g underscore
+  - npm install underscore
