@@ -16,7 +16,11 @@ var config = {
   prod: {
     mode: 'production',
     server: {
-      port: 80
+      domain: 'localhost',
+      port: process.env.PORT,
+      defaultLanguage: 'ru',
+      wayToViews: './app/assets/views',
+      viewsFormat: 'ejs'
     },
     db: {
       connection: ''
@@ -25,5 +29,11 @@ var config = {
 };
 
 module.exports = function(mode) {
+  if (
+    process.env.NODE_ENV &&
+    ('production' === process.env.NODE_ENV || 'prod' === process.env.NODE_ENV)
+  ) {
+    return config.prod;
+  }
   return config[mode || process.argv[2] || 'dev'] || config.dev;
 };
