@@ -1,3 +1,4 @@
+'use strict';
 module.exports = {
   /**
    * Extend exsist instance of model - add props to models prototype
