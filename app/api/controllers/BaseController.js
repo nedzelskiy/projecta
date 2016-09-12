@@ -8,14 +8,5 @@ module.exports = {
    */
   extend: function(child) {
     return _.extend({}, this, child);
-  },
-  /**
-   * Middleware Express For Controllers
-   * @param {obj} req Request Object
-   * @param {res} res Response Object
-   * @param {res} nex Response Object
-   */
-  run: function(req, res, next) {
-
   }
 };

@@ -1,11 +1,15 @@
 'use strict';
 var BaseController = require('./BaseController');
-var BaseView = require('../views/BaseView');
+var HtmlView = require('../models/views/HtmlView');
 
 module.exports = BaseController.extend({
   name: 'IndexController',
-  run: function(req, res, next) {
-    var model = new BaseView(res, 'index');
-    model.render();
+  /**
+   * the bootstrap of app from browser
+   */
+  startAppAction: function(req, res, next) {
+    var model = new HtmlView(res);
+    model.render('index');
+    return model;
   }
 });
