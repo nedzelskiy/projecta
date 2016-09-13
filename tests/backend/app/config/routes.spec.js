@@ -1,4 +1,3 @@
-var util = require('util');
 describe('Routes', function() {
 
   var router = require('../../../../app/config/routes');

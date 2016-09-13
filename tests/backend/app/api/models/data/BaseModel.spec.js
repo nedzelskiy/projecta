@@ -1,7 +1,6 @@
 var Model = require('../../../../../../app/api/models/data/BaseModel');
 var dbMockup = {};
 
-
 describe('BaseModel model', function() {
   it('should create a new model with default methods', function(next) {
     var model = new Model(dbMockup);
@@ -32,7 +31,7 @@ describe('BaseModel model', function() {
     next();
   });
   it('created model should be extendable', function(next) {
-    var modelSon = Model.extend({
+    var ModelSon = Model.extend({
       constructor: function() {
         this.mess = 'I am a son of model!';
       },
@@ -43,7 +42,7 @@ describe('BaseModel model', function() {
       }
     });
 
-    var modelGrandson = modelSon.extend({
+    var ModelGrandson = ModelSon.extend({
       constructor: function() {
         this.mess = 'I am a grandson of model!';
       },
@@ -54,11 +53,11 @@ describe('BaseModel model', function() {
       }
     });
 
-    expect(modelSon.extend).toBeDefined();
-    expect(modelGrandson.extend).toBeDefined();
+    expect(ModelSon.extend).toBeDefined();
+    expect(ModelGrandson.extend).toBeDefined();
 
-    var son = new modelSon();
-    var grandson = new modelGrandson();
+    var son = new ModelSon();
+    var grandson = new ModelGrandson();
 
     expect(son.setDB).toBeDefined();
     son.setDB('son db');

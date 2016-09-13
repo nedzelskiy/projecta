@@ -4,6 +4,7 @@ var BaseView = require('./BaseView');
 var HtmlView = BaseView.extend({
   constructor: function HtmlView(response) {
     BaseView.call(this, response);
+    this.template = null;
   },
   public: {
     /**
@@ -12,8 +13,11 @@ var HtmlView = BaseView.extend({
      * @param {obj} data data for render
      */
     render: function(template, data) {
-      if (this.response && template) {
-        this.response.render(template, data);
+      if (template) {
+        this.template = template;
+      }
+      if (this.response && this.template) {
+        this.response.render(this.template, data);
       }
     }
   }

@@ -15,10 +15,22 @@ module.exports = {
    *  }
    * });
    * @param {function} parent parent class constructor, which is for inheritance
-   * @param {function} options options for build new class constructor
-   * @return {function} Class constructor
+   * @param {obj} options options for build new class constructor
+   * @return {function|null} Class constructor or null if error
    */
   createModelInheritance: function(parent, options) {
+    if ('function' !== typeof parent) {
+      return null;
+    }
+    if ('object' !== typeof options) {
+      return null;
+    }
+    if (
+      (!options.hasOwnProperty('constructor')) ||
+      ('function' !== typeof options.constructor)
+    ) {
+      return null;
+    }
     var Class = options.constructor;
     // inherit all the public properties of the parent prototype
     this.inheritClassPrototypeProperties(parent, Class);
@@ -45,9 +57,30 @@ module.exports = {
    * @return {function} Class constructor, which extended
    */
   inheritClassPrototypeProperties: function(parent, Class) {
-    function FakeConstructor() {};
+    if ('function' !== typeof parent) {
+      return null;
+    }
+    if ('function' !== typeof Class) {
+      return null;
+    }
+    var FakeConstructor = function() {};
+    // save prototypy properties from Class
+    var obj = {};
+    for (var key in Class.prototype) {
+      if (!Class.prototype.hasOwnProperty(key)) {
+        continue;
+      }
+      obj[key] = Class.prototype[key];
+    }
     FakeConstructor.prototype = parent.prototype;
     Class.prototype = new FakeConstructor();
+    // restore Class prototype properties
+    for (var key in obj) {
+      if (!obj.hasOwnProperty(key)) {
+        continue;
+      }
+      Class.prototype[key] = obj[key];
+    }
     return Class;
   },
   /**
@@ -59,6 +92,12 @@ module.exports = {
    * @return {function} Class constructor, whith new properties
    */
   inheritClassProperties: function(parent, Class) {
+    if ('function' !== typeof parent) {
+      return null;
+    }
+    if ('function' !== typeof Class) {
+      return null;
+    }
     for (var key in parent) {
       if (!parent.hasOwnProperty(key)) {
         continue;
