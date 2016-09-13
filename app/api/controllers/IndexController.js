@@ -2,7 +2,7 @@
 var BaseController = require('./BaseController');
 var HtmlView = require('../models/views/HtmlView');
 
-module.exports = BaseController.extend({
+module.exports = BaseController.inherit({
   name: 'IndexController',
   /**
    * the bootstrap of app from browser

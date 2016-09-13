@@ -6,7 +6,7 @@ module.exports = {
    * extend the render method of Response object
    * @param {obj} data data for render
    */
-  extend: function(child) {
+  inherit: function(child) {
     return _.extend({}, this, child);
   }
 };
