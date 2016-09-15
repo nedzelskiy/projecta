@@ -10,3 +10,8 @@ before_script:
   - npm install underscore
   - npm install body-parser
   - npm install jasmine-jquery
+# safelist
+branches:
+  only:
+  - dev
+  - rc
